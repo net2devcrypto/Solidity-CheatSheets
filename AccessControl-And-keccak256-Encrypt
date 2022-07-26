@@ -1,0 +1,66 @@
+/*                                          
+                           ##              
+             ##   ####     ##              
+# ##   ###  #### ##  ##  ####  ###  ##  ## 
+## ## ## ##  ##      ## ## ## ## ## ##  ## 
+## ## ## ##  ##    ###  ## ## ## ##  ## #  
+## ## #####  ##   ##    ## ## #####  ## #  
+## ## ##     ##  ##     ## ## ##      ##   
+## ##  ####   ## ######  ## #  ####   ##
+
+ADD ACCESS CONTROL TO A CONTRACT
+ENCRYPT CONSTANTS WITH keccak256 TO SAVE
+ON CONTRACT STORAGE AND GAS FEES
+
+*/                            
+
+import "@openZeppelin/contracts/contracts/access/AccessControl.sol";
+
+
+contract Sample is AccessControl {
+
+    /*
+    STEP-1
+    ADD ROLES TO THE SMART CONTRACT
+    Encrypt info in keccak256 and lower storage usage in
+    smart contract. Save gas fees!
+    */
+
+    bytes32 public constant MINTER_ROLE = keccak256("MINTER_ROLE");
+    bytes32 public constant PAUSER_ROLE = keccak256("PAUSER_ROLE");
+
+    /*
+    STEP-2
+    DECLARE ROLES DURING CONTRACT DEPLOYMENT
+    IN THIS SAMPLE, THE ROLES ARE BEING ADDED TO THE
+    CONTRACT DEPLOYER
+    */
+
+    constructor() public () {
+
+        _setupRole(DEFAULT_ADMIN_ROLE, _msgSender());
+        _setupRole(MINTER_ROLE, _msgSender());
+        _setupRole(PAUSER_ROLE, _msgSender());
+
+    }
+
+    /*
+    STEP-3
+    APPLY THE ROLES TO THE FUNCTIONS AS YOU LIKE :)
+    */
+
+    function mint(address to, uint256 tokenId) public virtual {
+        require(hasRole(MINTER_ROLE, _msgSender()), "You must have minter role to mint");
+        _mint(to, tokenId);
+    }
+
+    function pause() public virtual {
+        require(hasRole(PAUSER_ROLE, _msgSender()), "You must have pauser role to pause");
+        _pause();
+    }
+
+    function unpause() public virtual {
+        require(hasRole(PAUSER_ROLE, _msgSender()), "You must have pauser role to unpause");
+        _unpause();
+    }
+}

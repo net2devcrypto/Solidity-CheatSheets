@@ -14,7 +14,7 @@ ON CONTRACT STORAGE AND GAS FEES
 
 */                            
 
-import "@openZeppelin/contracts/access/AccessControl.sol";
+import "@openzeppelin/contracts/access/AccessControl.sol";
 
 
 contract Sample is AccessControl {

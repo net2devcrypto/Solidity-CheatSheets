@@ -14,7 +14,7 @@ ON CONTRACT STORAGE AND GAS FEES
 
 */                            
 
-import "@openZeppelin/contracts/contracts/access/AccessControl.sol";
+import "@openZeppelin/contracts/access/AccessControl.sol";
 
 
 contract Sample is AccessControl {
@@ -36,7 +36,7 @@ contract Sample is AccessControl {
     CONTRACT DEPLOYER
     */
 
-    constructor() public () {
+    constructor() {
 
         _setupRole(DEFAULT_ADMIN_ROLE, _msgSender());
         _setupRole(MINTER_ROLE, _msgSender());

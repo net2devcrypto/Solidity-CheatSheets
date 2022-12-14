@@ -1,23 +1,29 @@
 /*                                          
-                           ##              
-             ##   ####     ##              
-# ##   ###  #### ##  ##  ####  ###  ##  ## 
-## ## ## ##  ##      ## ## ## ## ## ##  ## 
-## ## ## ##  ##    ###  ## ## ## ##  ## #  
-## ## #####  ##   ##    ## ## #####  ## #  
-## ## ##     ##  ##     ## ## ##      ##   
-## ##  ####   ## ######  ## #  ####   ##
+Follow/Subscribe Youtube, Github
+for more amazing content!!
+@Net2Dev
+███╗░░██╗███████╗████████╗██████╗░██████╗░███████╗██╗░░░██╗
+████╗░██║██╔════╝╚══██╔══╝╚════██╗██╔══██╗██╔════╝██║░░░██║
+██╔██╗██║█████╗░░░░░██║░░░░░███╔═╝██║░░██║█████╗░░╚██╗░██╔╝
+██║╚████║██╔══╝░░░░░██║░░░██╔══╝░░██║░░██║██╔══╝░░░╚████╔╝░
+██║░╚███║███████╗░░░██║░░░███████╗██████╔╝███████╗░░╚██╔╝░░
+╚═╝░░╚══╝╚══════╝░░░╚═╝░░░╚══════╝╚═════╝░╚══════╝░░░╚═╝░░░
+THIS CONTRACT IS AVAILABLE FOR EDUCATIONAL 
+PURPOSES ONLY. YOU ARE SOLELY REPONSIBLE 
+FOR ITS USE. I AM NOT RESPONSIBLE FOR ANY
+OTHER USE. THIS IS TRAINING/EDUCATIONAL
+MATERIAL. ONLY USE IT IF YOU AGREE TO THE
+TERMS SPECIFIED ABOVE.
 
-ADD ACCESS CONTROL TO A CONTRACT
-ENCRYPT CONSTANTS WITH keccak256 TO SAVE
-ON CONTRACT STORAGE AND GAS FEES
+ADD ACCESS CONTROL TO CONTRACT FUNCTIONS
+*/                           
 
-*/                            
+// SPDX-License-Identifier: MIT LICENSE
 
 import "@openzeppelin/contracts/access/AccessControl.sol";
 
 
-contract Sample is AccessControl {
+contract VerifyAccess is AccessControl {
 
     /*
     STEP-1
@@ -26,20 +32,20 @@ contract Sample is AccessControl {
     smart contract. Save gas fees!
     */
 
-    bytes32 public constant MINTER_ROLE = keccak256("MINTER_ROLE");
+    bytes32 public constant EXECUTER_ROLE = keccak256("EXECUTER_ROLE");
     bytes32 public constant PAUSER_ROLE = keccak256("PAUSER_ROLE");
 
     /*
     STEP-2
     DECLARE ROLES DURING CONTRACT DEPLOYMENT
-    IN THIS SAMPLE, THE ROLES ARE BEING ADDED TO THE
+    IN THIS SAMPLE, THE ROLES ARE BEING ASSIGNED TO THE
     CONTRACT DEPLOYER
     */
 
     constructor() {
 
         _setupRole(DEFAULT_ADMIN_ROLE, _msgSender());
-        _setupRole(MINTER_ROLE, _msgSender());
+        _setupRole(EXECUTER_ROLE, _msgSender());
         _setupRole(PAUSER_ROLE, _msgSender());
 
     }
@@ -50,7 +56,7 @@ contract Sample is AccessControl {
     */
 
     function mint(address to, uint256 tokenId) public virtual {
-        require(hasRole(MINTER_ROLE, _msgSender()), "You must have minter role to mint");
+        require(hasRole(EXECUTER_ROLE, _msgSender()), "You must have executer role to mint");
         _mint(to, tokenId);
     }
 

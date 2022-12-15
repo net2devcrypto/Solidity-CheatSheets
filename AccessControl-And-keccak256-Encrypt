@@ -22,6 +22,8 @@ ADD ACCESS CONTROL TO CONTRACT FUNCTIONS
 
 import "@openzeppelin/contracts/access/AccessControl.sol";
 
+pragma solidity ^0.8.7;
+
 
 contract VerifyAccess is AccessControl {
 
